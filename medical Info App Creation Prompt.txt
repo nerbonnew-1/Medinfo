@@ -1,0 +1,58 @@
+As an expert software engineer please create an interactive Pyhon application to field and classify medical intents.
+
+Objectives
+
+  1.  Automated Classification: Use an LLM to classify patient inquiries as either Medical or Non-Medical based on predefined intent categories.
+
+  2.  Intent Subtyping: Further categorize each inquiry into specific intent types (e.g., "Side Effects", "Product Access", "Affordability", "Dosage").
+
+  3.  Static Response Mapping: Automatically return a pre-approved static response for each non-medical intent type.
+
+  4.  Evidence-Grounded Medical Drafts: Generate draft responses for medical inquiries using Ibrance US Prescribing Information (PI) only.
+
+  5.  Bias Monitoring and Mitigation: Ensure fair and equitable triage decisions across diverse patient language inputs and demographics.
+
+  6.  Scalability Design: Build a modular system ready to expand to additional products, populations, and inquiry sources.
+
+Technical Design
+The solution will be developed in Python using Streamlit for rapid UI development. The proposed system consists of the following layers:
+
+  1.  User Interface (Streamlit App):
+
+  *   Text input field for the patient’s inquiry.  Utlize the intent_schema_approach.doc and the intent_training_dataset.csv.
+
+  *   Output displays classification (Medical/Non-Medical/Unkown), intent type, system response, and confidence level.
+
+  *   Feedback option for users to flag incorrect classifications or responses.
+
+  2.  Preprocessing Layer:
+
+  *   Normalizes incoming text (spelling, punctuation, etc.).
+
+  *   Detects common informal or ambiguous phrasing typical in patient language.
+
+  3.  Inference Engine (LLM):
+
+  *   Uses an LLM GPT-4 to:
+
+  *   Classify the inquiry as Medical or Non-Medical or Unknown.
+
+  *   Determine the specific intent subtype using a predefined schema.
+
+  *   Medical intents trigger a prompt to include USPI_Ibrance_palbociclib_capsules.md and USPI_Ibrance_palbociclib_TABLETS.md files to enhance the genai response.
+
+  *   The LLM retrieves relevant excerpts and generates a grounded, compliant draft response.
+
+  4.  Static Response Handler:
+
+  *   Non-medical intents are linked to static responses from a configured response library (e.g., FAQs on cost or availability).
+
+  *   These responses are instantly returned without needing to interact with the LLM.  
+
+  5.  Post-Processing & Rule Layer:
+
+  *   Applies rules based on keywords, confidence thresholds, and fallback logic.
+
+  *   Ensures that critical medical intents (e.g., side effects) are never misclassified as non-medical.
+
+
